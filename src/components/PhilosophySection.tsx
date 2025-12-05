@@ -11,22 +11,18 @@ const PhilosophySection = () => {
             </h2>
             <div className="space-y-6 text-body">
               <p>
-                At Aura Interiors, we believe that exceptional design begins with understanding the soul 
-                of a space. Every room has a story waiting to be told, and our role is to bring that 
-                narrative to life through thoughtful composition, material selection, and light.
+                At Urvi Architectural Services, visionary architecture begins with understanding the soul of a space, a principle established by our founder, Urvija Kriti. We go beyond design to craft environments that flawlessly merge aesthetics, functionality, and sustainability, always guided by a client-first philosophy.
               </p>
               <p>
-                Our approach merges timeless aesthetics with contemporary sensibilities, creating 
-                environments that are both visually stunning and deeply functional. We don't just 
-                design rooms—we craft experiences that elevate daily living into something extraordinary.
+                Our dedicated team of architects, designers, and engineers works in synergy to provide seamless, end-to-end solutions. From dynamic commercial establishments to elegant residences, we bring a personalized touch to every project. Rooted in deep design principles and regional context, we transform visions into inspiring, tangible realities.
               </p>
             </div>
             <div className="mt-10 pt-10 border-t border-border">
               <blockquote className="font-serif text-2xl md:text-3xl italic text-foreground leading-relaxed">
-                "Architecture is the learned game, correct and magnificent, of forms assembled in the light."
+                "Architecture should speak of its time and place, but yearn for timelessness."
               </blockquote>
               <cite className="block mt-4 text-sm text-muted-foreground not-italic">
-                — Le Corbusier
+                — Frank Gehry
               </cite>
             </div>
           </div>

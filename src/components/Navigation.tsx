@@ -37,7 +37,7 @@ const Navigation = () => {
             isScrolled ? 'text-foreground' : 'text-white'
           }`}
         >
-          Aura<span className="text-gold">.</span>
+          URVI<span className="text-gold">.</span>
         </a>
 
         {/* Desktop Navigation */}

@@ -1,5 +1,7 @@
 import { useState } from 'react';
-import { MapPin, Phone, Mail, Instagram, Linkedin, ArrowUpRight } from 'lucide-react';
+import { MapPin, Phone, Mail, Instagram, Linkedin, ArrowUpRight, Loader2 } from 'lucide-react';
+import { sendEmail } from '@/lib/email.service';
+import { useToast } from '@/hooks/use-toast';
 
 const ContactSection = () => {
   const [formData, setFormData] = useState({
@@ -7,11 +9,43 @@ const ContactSection = () => {
     email: '',
     message: '',
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const { toast } = useToast();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle form submission
-    console.log(formData);
+    setIsSubmitting(true);
+
+    try {
+      const result = await sendEmail(formData);
+
+      if (result.success) {
+        toast({
+          title: 'Message sent successfully!',
+          description: 'We will get back to you soon.',
+        });
+        // Reset form
+        setFormData({
+          name: '',
+          email: '',
+          message: '',
+        });
+      } else {
+        toast({
+          title: 'Unable to send message',
+          description: result.error || 'We encountered an issue sending your message. Please try again.',
+          variant: 'destructive',
+        });
+      }
+    } catch (error) {
+      toast({
+        title: 'Something went wrong',
+        description: 'We\'re sorry, but an unexpected error occurred. Please try again later, or contact us directly if the problem persists.',
+        variant: 'destructive',
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -151,10 +185,20 @@ const ContactSection = () => {
 
               <button
                 type="submit"
-                className="w-full flex items-center justify-center gap-2 px-8 py-4 bg-charcoal text-cream font-medium text-sm uppercase tracking-wider hover:bg-gold transition-colors duration-500"
+                disabled={isSubmitting}
+                className="w-full flex items-center justify-center gap-2 px-8 py-4 bg-charcoal text-cream font-medium text-sm uppercase tracking-wider hover:bg-gold transition-colors duration-500 disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                Send Message
-                <ArrowUpRight size={18} />
+                {isSubmitting ? (
+                  <>
+                    <Loader2 className="w-5 h-5 animate-spin" />
+                    Sending...
+                  </>
+                ) : (
+                  <>
+                    Send Message
+                    <ArrowUpRight size={18} />
+                  </>
+                )}
               </button>
             </form>
           </div>

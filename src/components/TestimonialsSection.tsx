@@ -3,19 +3,19 @@ import { ChevronLeft, ChevronRight, Quote } from 'lucide-react';
 
 const testimonials = [
   {
-    quote: "Urvi Architectural Services transformed our vision into a clean, efficient medical store layout. Urvija and her team achieved a perfect balance of functionality and aesthetics, ensuring optimal product display and a welcoming atmosphere. Highly recommend!",
-    author: 'Catherine & Michael Stone',
-    location: 'Manhattan Penthouse',
+    quote: "Urvi Architectural Services transformed our vision into a clean, efficient medical store layout. Urvija Kriti and her team balanced functionality and aesthetics perfectly, ensuring optimal product display and a welcoming atmosphere. We are very happy with the outcome and highly recommend them!",
+    author: 'Dr. Anjali Singh',
+    location: 'Medical Store, Patna',
   },
   {
-    quote: "Working with the Aura team was an absolute pleasure. Their attention to detail and ability to understand our vision made the entire process seamless and enjoyable.",
-    author: 'Robert Hayes',
-    location: 'Coastal Villa, Malibu',
+    quote: "Designing Blue Bottle Café with Urvi Architectural Services was inspiring. Urvija Kriti and her team delivered a space blending contemporary aesthetics with functional design. They understood the importance of ambiance, creating a unique, inviting space our customers love. Highly recommend!",
+    author: 'Rajesh Kumar',
+    location: 'Blue Bottle Café, Patna',
   },
   {
-    quote: "They didn't just design our office—they created an environment that inspires our team and impresses every client who walks through the door.",
-    author: 'Sarah Chen',
-    location: 'Tech Startup HQ, San Francisco',
+    quote: "Urvi Architectural Services gave Quantum Quisine Café a stunning identity. The design is modern, functional, and full of character—exactly what we envisioned. Architect Urvija Kriti and her team were creative, responsive, and truly professional throughout. We couldn’t be happier!",
+    author: 'Rajesh Kumar',
+    location: 'Quantum Quisine Café, Patna',
   },
 ];
 
@@ -31,7 +31,7 @@ const TestimonialsSection = () => {
         <div className="max-w-4xl mx-auto text-center">
           <Quote className="w-12 h-12 md:w-16 md:h-16 text-gold/30 mx-auto mb-8" />
           
-          <div className="relative min-h-[280px] md:min-h-[200px]">
+          <div className="relative min-h-[400px] md:min-h-[350px] lg:min-h-[400px]">
             {testimonials.map((testimonial, index) => (
               <div
                 key={index}
@@ -41,10 +41,10 @@ const TestimonialsSection = () => {
                     : 'opacity-0 translate-y-8 pointer-events-none'
                 }`}
               >
-                <blockquote className="font-serif text-2xl md:text-3xl lg:text-4xl text-foreground leading-relaxed mb-8">
+                <blockquote className="font-serif text-2xl md:text-3xl lg:text-4xl text-foreground leading-relaxed mb-12 md:mb-16">
                   "{testimonial.quote}"
                 </blockquote>
-                <div>
+                <div className="mt-8 md:mt-12">
                   <p className="font-medium text-foreground">{testimonial.author}</p>
                   <p className="text-sm text-muted-foreground">{testimonial.location}</p>
                 </div>
@@ -53,7 +53,7 @@ const TestimonialsSection = () => {
           </div>
 
           {/* Navigation */}
-          <div className="flex items-center justify-center gap-4 mt-12">
+          <div className="flex items-center justify-center gap-4 mt-[14px] md:mt-[30px]">
             <button
               onClick={prev}
               className="w-12 h-12 flex items-center justify-center border border-border hover:border-gold hover:text-gold transition-colors duration-300"

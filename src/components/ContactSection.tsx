@@ -37,8 +37,8 @@ const ContactSection = () => {
                 <div>
                   <p className="font-medium text-foreground mb-1">Studio</p>
                   <p className="text-muted-foreground">
-                    245 Park Avenue, Suite 1800<br />
-                    New York, NY 10167
+                    19, Kautilya Nagar, BMP Rd,  Ashiana More,<br />
+                    Khajpura, Patna, Bihar 800014, India
                   </p>
                 </div>
               </div>
@@ -49,7 +49,7 @@ const ContactSection = () => {
                 </div>
                 <div>
                   <p className="font-medium text-foreground mb-1">Phone</p>
-                  <p className="text-muted-foreground">+1 (212) 555-0148</p>
+                  <p className="text-muted-foreground">+91 96346 59272</p>
                 </div>
               </div>
 
@@ -59,7 +59,7 @@ const ContactSection = () => {
                 </div>
                 <div>
                   <p className="font-medium text-foreground mb-1">Email</p>
-                  <p className="text-muted-foreground">hello@aurainteriors.com</p>
+                  <p className="text-muted-foreground">ar.urvija.kriti@gmail.com</p>
                 </div>
               </div>
             </div>

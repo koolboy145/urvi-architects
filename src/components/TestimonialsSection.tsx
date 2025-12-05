@@ -3,7 +3,7 @@ import { ChevronLeft, ChevronRight, Quote } from 'lucide-react';
 
 const testimonials = [
   {
-    quote: "Aura Interiors transformed our house into something beyond our wildest dreams. Every corner tells a story, and we fall in love with our home all over again each day.",
+    quote: "Urvi Architectural Services transformed our vision into a clean, efficient medical store layout. Urvija and her team achieved a perfect balance of functionality and aesthetics, ensuring optimal product display and a welcoming atmosphere. Highly recommend!",
     author: 'Catherine & Michael Stone',
     location: 'Manhattan Penthouse',
   },

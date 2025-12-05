@@ -4,11 +4,11 @@ const Footer = () => {
       <div className="container-wide">
         <div className="flex flex-col md:flex-row items-center justify-between gap-6">
           <a href="#" className="font-serif text-2xl tracking-tight text-cream">
-            Aura<span className="text-gold">.</span>
+            URVI<span className="text-gold">.</span>
           </a>
           
           <p className="text-sm text-cream-dark/60">
-            © {new Date().getFullYear()} Aura Interiors. All rights reserved.
+            © {new Date().getFullYear()} URVI Architectural Services. All rights reserved.
           </p>
 
           <div className="flex gap-8">

@@ -31,9 +31,15 @@ const ContactSection = () => {
 
             <div className="space-y-6 mb-12">
               <div className="flex items-start gap-4">
-                <div className="w-12 h-12 flex items-center justify-center border border-border">
+                <a
+                  href="https://www.google.com/maps/place/URVI+Architectural+Services/@25.6089411,85.0788031,16z/data=!4m10!1m2!2m1!1s19+Kautilya+Nagar+BMP+Rd+Ashiana+More+Khajpura+Patna+Bihar+800014+India!3m6!1s0x39ed57383d9de94d:0xd6c5d5292ab96623!8m2!3d25.6028098!4d85.0802509!15sCkcxOSBLYXV0aWx5YSBOYWdhciBCTVAgUmQgQXNoaWFuYSBNb3JlIEtoYWpwdXJhIFBhdG5hIEJpaGFyIDgwMDAxNCBJbmRpYVpJIkcxOSBrYXV0aWx5YSBuYWdhciBibXAgcmQgYXNoaWFuYSBtb3JlIGtoYWpwdXJhIHBhdG5hIGJpaGFyIDgwMDAxNCBpbmRpYZIBFmFyY2hpdGVjdHVyYWxfZGVzaWduZXKaASNDaFpEU1VoTk1HOW5TMFZRU3pRNVRqTmlka3hFYUVKbkVBReABAPoBBAgAEEs!16s%2Fg%2F11ls0nm84b?entry=ttu&g_ep=EgoyMDI1MTIwMi4wIKXMDSoASAFQAw%3D%3D"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-12 h-12 flex items-center justify-center border border-border hover:border-gold hover:text-gold transition-colors duration-300 cursor-pointer"
+                  aria-label="Open location in Google Maps"
+                >
                   <MapPin className="w-5 h-5 text-gold" />
-                </div>
+                </a>
                 <div>
                   <p className="font-medium text-foreground mb-1">Studio</p>
                   <p className="text-muted-foreground">
@@ -44,9 +50,13 @@ const ContactSection = () => {
               </div>
 
               <div className="flex items-start gap-4">
-                <div className="w-12 h-12 flex items-center justify-center border border-border">
+                <a
+                  href="tel:+919634659272"
+                  className="w-12 h-12 flex items-center justify-center border border-border hover:border-gold hover:text-gold transition-colors duration-300 cursor-pointer"
+                  aria-label="Call +91 96346 59272"
+                >
                   <Phone className="w-5 h-5 text-gold" />
-                </div>
+                </a>
                 <div>
                   <p className="font-medium text-foreground mb-1">Phone</p>
                   <p className="text-muted-foreground">+91 96346 59272</p>
@@ -54,9 +64,13 @@ const ContactSection = () => {
               </div>
 
               <div className="flex items-start gap-4">
-                <div className="w-12 h-12 flex items-center justify-center border border-border">
+                <a
+                  href="mailto:ar.urvija.kriti@gmail.com"
+                  className="w-12 h-12 flex items-center justify-center border border-border hover:border-gold hover:text-gold transition-colors duration-300 cursor-pointer"
+                  aria-label="Send email to ar.urvija.kriti@gmail.com"
+                >
                   <Mail className="w-5 h-5 text-gold" />
-                </div>
+                </a>
                 <div>
                   <p className="font-medium text-foreground mb-1">Email</p>
                   <p className="text-muted-foreground">ar.urvija.kriti@gmail.com</p>
@@ -67,14 +81,18 @@ const ContactSection = () => {
             {/* Social Links */}
             <div className="flex gap-4">
               <a
-                href="#"
+                href="https://www.instagram.com/urvi_design/"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="w-12 h-12 flex items-center justify-center border border-border hover:border-gold hover:text-gold transition-colors duration-300"
                 aria-label="Instagram"
               >
                 <Instagram size={20} />
               </a>
               <a
-                href="#"
+                href="https://www.linkedin.com/in/ar-urvija-kriti-2b85657a/"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="w-12 h-12 flex items-center justify-center border border-border hover:border-gold hover:text-gold transition-colors duration-300"
                 aria-label="LinkedIn"
               >

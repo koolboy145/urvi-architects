@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { ArrowUpRight, X } from 'lucide-react';
+import { ArrowUpRight, X, ArrowLeft } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
@@ -102,7 +102,7 @@ const projects: Project[] = [
   {
     title: 'Urban Penthouse',
     category: 'Residential',
-    image: 'https://images.unsplash.com/photo-1600607687644-aac4c3eac7f4?auto=format&fit=crop&w=800&q=80',
+    image: 'https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=800&q=80',
     size: 'medium',
     description: 'A sophisticated urban penthouse featuring panoramic city views and contemporary luxury finishes. This space represents modern city living at its finest.',
     details: [
@@ -113,7 +113,9 @@ const projects: Project[] = [
       'Smart home technology',
     ],
     images: [
-      'https://images.unsplash.com/photo-1600607687644-aac4c3eac7f4?auto=format&fit=crop&w=1200&q=80',
+      'https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=1200&q=80',
+      'https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=1200&q=80',
+      'https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?auto=format&fit=crop&w=1200&q=80',
     ],
     location: 'Manhattan, New York',
     year: '2024',
@@ -141,6 +143,19 @@ const projects: Project[] = [
 
 const PortfolioSection = () => {
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+  const [showAllProjects, setShowAllProjects] = useState(false);
+  const [viewMode, setViewMode] = useState<'cards' | 'detail'>('cards');
+  
+  const displayedProjects = projects.slice(0, 4);
+  const handleProjectClick = (project: Project) => {
+    setSelectedProject(project);
+    setViewMode('detail');
+  };
+  
+  const handleBackToCards = () => {
+    setViewMode('cards');
+    setSelectedProject(null);
+  };
 
   return (
     <section id="portfolio" className="section-padding bg-background">
@@ -154,7 +169,7 @@ const PortfolioSection = () => {
 
         {/* Masonry Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {projects.map((project, index) => (
+          {displayedProjects.map((project, index) => (
             <div
               key={index}
               onClick={() => setSelectedProject(project)}
@@ -199,7 +214,9 @@ const PortfolioSection = () => {
             size="lg"
             className="inline-flex items-center gap-2"
             onClick={() => {
-              // Add navigation logic here if needed
+              setShowAllProjects(true);
+              setViewMode('cards');
+              setSelectedProject(null);
             }}
           >
             View All Projects
@@ -208,8 +225,8 @@ const PortfolioSection = () => {
         </div>
       </div>
 
-      {/* Project Detail Modal */}
-      <Dialog open={!!selectedProject} onOpenChange={(open) => !open && setSelectedProject(null)}>
+      {/* Project Detail Modal (from main grid) */}
+      <Dialog open={!!selectedProject && !showAllProjects} onOpenChange={(open) => !open && setSelectedProject(null)}>
         <DialogContent className="max-w-6xl w-[95vw] max-h-[90vh] p-0 bg-background border-border overflow-hidden flex flex-col">
           {selectedProject && (
             <div className="flex flex-col h-full overflow-hidden">
@@ -300,6 +317,190 @@ const PortfolioSection = () => {
                 </div>
               </div>
             </div>
+          )}
+        </DialogContent>
+      </Dialog>
+
+      {/* View All Projects Modal */}
+      <Dialog open={showAllProjects} onOpenChange={(open) => {
+        if (!open) {
+          setShowAllProjects(false);
+          setViewMode('cards');
+          setSelectedProject(null);
+        }
+      }}>
+        <DialogContent className="max-w-7xl w-[95vw] max-h-[90vh] p-0 bg-background border-border overflow-hidden flex flex-col">
+          {viewMode === 'cards' ? (
+            // Cards View
+            <div className="flex flex-col h-full overflow-hidden">
+              {/* Header */}
+              <DialogHeader className="px-6 md:px-8 pt-6 md:pt-8 pb-4 border-b border-border">
+                <div className="flex items-start justify-between">
+                  <div>
+                    <DialogTitle className="font-serif text-3xl md:text-4xl text-foreground mb-2">
+                      Our Projects
+                    </DialogTitle>
+                    <DialogDescription className="text-muted-foreground">
+                      Explore our complete portfolio of architectural excellence
+                    </DialogDescription>
+                  </div>
+                  <button
+                    onClick={() => {
+                      setShowAllProjects(false);
+                      setViewMode('cards');
+                      setSelectedProject(null);
+                    }}
+                    className="w-10 h-10 flex items-center justify-center rounded-full hover:bg-muted transition-colors text-foreground"
+                    aria-label="Close"
+                  >
+                    <X size={20} />
+                  </button>
+                </div>
+              </DialogHeader>
+
+              {/* Scrollable Cards Grid */}
+              <div className="flex-1 overflow-y-auto">
+                <div className="px-6 md:px-8 py-6 md:py-8">
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {projects.map((project, index) => (
+                      <div
+                        key={index}
+                        onClick={() => handleProjectClick(project)}
+                        className="group relative image-reveal cursor-pointer aspect-[4/3]"
+                      >
+                        <div className="relative overflow-hidden aspect-[4/3] rounded-lg">
+                          <img
+                            src={project.image}
+                            alt={project.title}
+                            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                          />
+                          {/* Overlay */}
+                          <div className="absolute inset-0 bg-charcoal/0 group-hover:bg-charcoal/60 transition-all duration-500 rounded-lg" />
+                          
+                          {/* Content */}
+                          <div className="absolute inset-0 p-6 md:p-8 flex flex-col justify-end opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-lg">
+                            <p className="text-xs uppercase tracking-wider text-gold-light mb-2">
+                              {project.category}
+                            </p>
+                            <h3 className="font-serif text-2xl md:text-3xl text-cream">
+                              {project.title}
+                            </h3>
+                          </div>
+
+                          {/* Arrow */}
+                          <div className="absolute top-6 right-6 w-12 h-12 flex items-center justify-center bg-cream text-charcoal opacity-0 group-hover:opacity-100 transition-all duration-500 translate-y-4 group-hover:translate-y-0 rounded-lg">
+                            <ArrowUpRight size={20} />
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+          ) : (
+            // Detail View
+            selectedProject && (
+              <div className="flex flex-col h-full overflow-hidden">
+                {/* Header with Back Button */}
+                <DialogHeader className="px-6 md:px-8 pt-6 md:pt-8 pb-4 border-b border-border">
+                  <div className="flex items-start justify-between">
+                    <div className="flex items-start gap-4">
+                      <button
+                        onClick={handleBackToCards}
+                        className="w-10 h-10 flex items-center justify-center rounded-full hover:bg-muted transition-colors text-foreground mt-1"
+                        aria-label="Back to projects"
+                      >
+                        <ArrowLeft size={20} />
+                      </button>
+                      <div>
+                        <p className="text-xs uppercase tracking-wider text-gold mb-2">
+                          {selectedProject.category}
+                        </p>
+                        <DialogTitle className="font-serif text-3xl md:text-4xl text-foreground mb-2">
+                          {selectedProject.title}
+                        </DialogTitle>
+                        {(selectedProject.location || selectedProject.year) && (
+                          <DialogDescription className="text-muted-foreground">
+                            {selectedProject.location && <span>{selectedProject.location}</span>}
+                            {selectedProject.location && selectedProject.year && <span> • </span>}
+                            {selectedProject.year && <span>{selectedProject.year}</span>}
+                          </DialogDescription>
+                        )}
+                      </div>
+                    </div>
+                    <button
+                      onClick={() => {
+                        setShowAllProjects(false);
+                        setViewMode('cards');
+                        setSelectedProject(null);
+                      }}
+                      className="w-10 h-10 flex items-center justify-center rounded-full hover:bg-muted transition-colors text-foreground"
+                      aria-label="Close"
+                    >
+                      <X size={20} />
+                    </button>
+                  </div>
+                </DialogHeader>
+
+                {/* Scrollable Content */}
+                <div className="flex-1 overflow-y-auto">
+                  <div className="px-6 md:px-8 py-6 md:py-8 space-y-8">
+                    {/* Main Image */}
+                    <div className="relative w-full aspect-video overflow-hidden rounded-lg">
+                      <img
+                        src={selectedProject.image}
+                        alt={selectedProject.title}
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+
+                    {/* Description */}
+                    {selectedProject.description && (
+                      <div>
+                        <h3 className="font-serif text-2xl text-foreground mb-4">About This Project</h3>
+                        <p className="text-body text-muted-foreground leading-relaxed">
+                          {selectedProject.description}
+                        </p>
+                      </div>
+                    )}
+
+                    {/* Details */}
+                    {selectedProject.details && selectedProject.details.length > 0 && (
+                      <div>
+                        <h3 className="font-serif text-2xl text-foreground mb-4">Key Features</h3>
+                        <ul className="space-y-3">
+                          {selectedProject.details.map((detail, idx) => (
+                            <li key={idx} className="flex items-start gap-3">
+                              <span className="text-gold mt-1">•</span>
+                              <span className="text-muted-foreground">{detail}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+
+                    {/* Additional Images */}
+                    {selectedProject.images && selectedProject.images.length > 0 && (
+                      <div>
+                        <h3 className="font-serif text-2xl text-foreground mb-4">Gallery</h3>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                          {selectedProject.images.map((img, idx) => (
+                            <div key={idx} className="relative w-full aspect-video overflow-hidden rounded-lg">
+                              <img
+                                src={img}
+                                alt={`${selectedProject.title} - Image ${idx + 1}`}
+                                className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
+                              />
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </div>
+            )
           )}
         </DialogContent>
       </Dialog>

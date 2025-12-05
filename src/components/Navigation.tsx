@@ -31,7 +31,12 @@ const Navigation = () => {
       }`}
     >
       <div className="container-wide flex items-center justify-between">
-        <a href="#" className="font-serif text-2xl md:text-3xl tracking-tight text-foreground">
+        <a 
+          href="#" 
+          className={`font-serif text-2xl md:text-3xl tracking-tight transition-colors duration-500 ${
+            isScrolled ? 'text-foreground' : 'text-white'
+          }`}
+        >
           Aura<span className="text-gold">.</span>
         </a>
 
@@ -41,7 +46,9 @@ const Navigation = () => {
             <a
               key={link.name}
               href={link.href}
-              className="text-sm font-medium text-foreground hover:text-gold transition-colors duration-300 link-underline"
+              className={`text-sm font-medium hover:text-gold transition-colors duration-500 link-underline ${
+                isScrolled ? 'text-foreground' : 'text-white'
+              }`}
             >
               {link.name}
             </a>
@@ -51,7 +58,9 @@ const Navigation = () => {
         {/* Mobile Menu Button */}
         <button
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-          className="lg:hidden p-2 text-foreground"
+          className={`lg:hidden p-2 transition-colors duration-500 ${
+            isScrolled ? 'text-foreground' : 'text-white'
+          }`}
           aria-label="Toggle menu"
         >
           {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
@@ -70,7 +79,7 @@ const Navigation = () => {
               key={link.name}
               href={link.href}
               onClick={() => setIsMobileMenuOpen(false)}
-              className="text-lg font-medium text-foreground hover:text-gold transition-colors duration-300"
+              className="text-lg font-medium text-foreground hover:text-gold transition-colors duration-500"
             >
               {link.name}
             </a>

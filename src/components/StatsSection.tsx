@@ -1,7 +1,7 @@
 const stats = [
-  { value: '18+', label: 'Years of Excellence' },
-  { value: '340+', label: 'Projects Completed' },
-  { value: '52', label: 'Design Awards' },
+  { value: '10+', label: 'Years of Excellence' },
+  { value: '34+', label: 'Projects Completed' },
+  { value: '18', label: 'Design Awards' },
   { value: '2.5M', label: 'Sq Ft Designed' },
 ];
 

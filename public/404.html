@@ -32,7 +32,10 @@
 
         // Build the redirect URL to index.html
         // Format: /repo-name/index.html?/route-path&original-query#hash
-        var redirectPath = '/' + basePath + '/index.html';
+        // Handle empty basePath to avoid double slashes
+        var redirectPath = basePath 
+          ? '/' + basePath + '/index.html'
+          : '/index.html';
         
         // Add the route path as a query parameter
         if (routePath) {

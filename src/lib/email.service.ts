@@ -1,5 +1,6 @@
 import emailjs from '@emailjs/browser';
 import { emailConfig } from '@/config/email.config';
+import { sanitizeFormData } from './validation';
 
 export interface ContactFormData {
   name: string;
@@ -32,15 +33,18 @@ export async function sendEmail(formData: ContactFormData): Promise<EmailRespons
     // Initialize EmailJS with public key
     emailjs.init(publicKey);
 
+    // Sanitize form data one more time before sending (defense in depth)
+    const sanitizedData = sanitizeFormData(formData);
+
     // Prepare template parameters
     // These variables match standard EmailJS template variables: {{name}}, {{email}}, {{message}}, {{subject}}
     const templateParams = {
-      name: formData.name,           // Maps to {{name}} in EmailJS template
-      email: formData.email,         // Maps to {{email}} in EmailJS template
-      message: formData.message,      // Maps to {{message}} in EmailJS template
+      name: sanitizedData.name,           // Maps to {{name}} in EmailJS template
+      email: sanitizedData.email,         // Maps to {{email}} in EmailJS template
+      message: sanitizedData.message,      // Maps to {{message}} in EmailJS template
       subject: emailConfig.subject,  // Maps to {{subject}} in EmailJS template
       // Additional formatted version for convenience
-      email_body: `Full Name: ${formData.name}\nEmail Address: ${formData.email}\n\nDescription:\n${formData.message}`,
+      email_body: `Full Name: ${sanitizedData.name}\nEmail Address: ${sanitizedData.email}\n\nDescription:\n${sanitizedData.message}`,
     };
 
     // Send email using EmailJS

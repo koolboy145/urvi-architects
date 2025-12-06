@@ -2,6 +2,13 @@ import { useState } from 'react';
 import { MapPin, Phone, Mail, Instagram, Linkedin, ArrowUpRight, Loader2 } from 'lucide-react';
 import { sendEmail } from '@/lib/email.service';
 import { useToast } from '@/hooks/use-toast';
+import { validateName, validateEmail, validateMessage, sanitizeFormData } from '@/lib/validation';
+
+interface FormErrors {
+  name?: string;
+  email?: string;
+  message?: string;
+}
 
 const ContactSection = () => {
   const [formData, setFormData] = useState({
@@ -9,27 +16,99 @@ const ContactSection = () => {
     email: '',
     message: '',
   });
+  const [errors, setErrors] = useState<FormErrors>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { toast } = useToast();
 
+  const handleNameChange = (value: string) => {
+    setFormData({ ...formData, name: value });
+    // Clear error when user starts typing
+    if (errors.name) {
+      const validation = validateName(value);
+      if (validation.isValid) {
+        setErrors({ ...errors, name: undefined });
+      } else {
+        setErrors({ ...errors, name: validation.error });
+      }
+    }
+  };
+
+  const handleEmailChange = (value: string) => {
+    setFormData({ ...formData, email: value });
+    // Clear error when user starts typing
+    if (errors.email) {
+      const validation = validateEmail(value);
+      if (validation.isValid) {
+        setErrors({ ...errors, email: undefined });
+      } else {
+        setErrors({ ...errors, email: validation.error });
+      }
+    }
+  };
+
+  const handleMessageChange = (value: string) => {
+    setFormData({ ...formData, message: value });
+    // Clear error when user starts typing
+    if (errors.message) {
+      const validation = validateMessage(value);
+      if (validation.isValid) {
+        setErrors({ ...errors, message: undefined });
+      } else {
+        setErrors({ ...errors, message: validation.error });
+      }
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    // Validate all fields
+    const nameValidation = validateName(formData.name);
+    const emailValidation = validateEmail(formData.email);
+    const messageValidation = validateMessage(formData.message);
+
+    const newErrors: FormErrors = {};
+    
+    if (!nameValidation.isValid) {
+      newErrors.name = nameValidation.error;
+    }
+    if (!emailValidation.isValid) {
+      newErrors.email = emailValidation.error;
+    }
+    if (!messageValidation.isValid) {
+      newErrors.message = messageValidation.error;
+    }
+
+    // If there are validation errors, show them and prevent submission
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+      toast({
+        title: 'Please fix the errors',
+        description: 'Some fields have validation errors. Please check and correct them.',
+        variant: 'destructive',
+      });
+      return;
+    }
+
     setIsSubmitting(true);
 
     try {
-      const result = await sendEmail(formData);
+      // Sanitize all form data before sending
+      const sanitizedData = sanitizeFormData(formData);
+      const result = await sendEmail(sanitizedData);
 
       if (result.success) {
         toast({
           title: 'Message sent successfully!',
           description: 'We will get back to you soon.',
         });
-        // Reset form
+        // Reset form and errors
         setFormData({
           name: '',
           email: '',
           message: '',
         });
+        setErrors({});
       } else {
         toast({
           title: 'Unable to send message',
@@ -146,11 +225,26 @@ const ContactSection = () => {
                   type="text"
                   id="name"
                   value={formData.name}
-                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                  className="w-full px-4 py-3 bg-background border border-border focus:border-gold focus:outline-none transition-colors duration-300"
-                  placeholder="Your name"
+                  onChange={(e) => handleNameChange(e.target.value)}
+                  onBlur={() => {
+                    const validation = validateName(formData.name);
+                    if (!validation.isValid) {
+                      setErrors({ ...errors, name: validation.error });
+                    }
+                  }}
+                  className={`w-full px-4 py-3 bg-background border transition-colors duration-300 focus:outline-none ${
+                    errors.name
+                      ? 'border-red-500 focus:border-red-500'
+                      : 'border-border focus:border-gold'
+                  }`}
+                  placeholder="Your name (letters only)"
                   required
+                  pattern="[a-zA-ZÀ-ÿ\s'-]+"
+                  title="Name can only contain letters, spaces, hyphens, and apostrophes"
                 />
+                {errors.name && (
+                  <p className="mt-1 text-sm text-red-500">{errors.name}</p>
+                )}
               </div>
 
               <div>
@@ -161,11 +255,26 @@ const ContactSection = () => {
                   type="email"
                   id="email"
                   value={formData.email}
-                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                  className="w-full px-4 py-3 bg-background border border-border focus:border-gold focus:outline-none transition-colors duration-300"
+                  onChange={(e) => handleEmailChange(e.target.value)}
+                  onBlur={() => {
+                    const validation = validateEmail(formData.email);
+                    if (!validation.isValid) {
+                      setErrors({ ...errors, email: validation.error });
+                    }
+                  }}
+                  className={`w-full px-4 py-3 bg-background border transition-colors duration-300 focus:outline-none ${
+                    errors.email
+                      ? 'border-red-500 focus:border-red-500'
+                      : 'border-border focus:border-gold'
+                  }`}
                   placeholder="your@email.com"
                   required
+                  pattern="[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}"
+                  title="Please enter a valid email address (format: text@domain.tld)"
                 />
+                {errors.email && (
+                  <p className="mt-1 text-sm text-red-500">{errors.email}</p>
+                )}
               </div>
 
               <div>
@@ -175,12 +284,30 @@ const ContactSection = () => {
                 <textarea
                   id="message"
                   value={formData.message}
-                  onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                  onChange={(e) => handleMessageChange(e.target.value)}
+                  onBlur={() => {
+                    const validation = validateMessage(formData.message);
+                    if (!validation.isValid) {
+                      setErrors({ ...errors, message: validation.error });
+                    }
+                  }}
                   rows={5}
-                  className="w-full px-4 py-3 bg-background border border-border focus:border-gold focus:outline-none transition-colors duration-300 resize-none"
+                  className={`w-full px-4 py-3 bg-background border transition-colors duration-300 resize-none focus:outline-none ${
+                    errors.message
+                      ? 'border-red-500 focus:border-red-500'
+                      : 'border-border focus:border-gold'
+                  }`}
                   placeholder="Describe your vision..."
                   required
+                  minLength={10}
+                  maxLength={5000}
                 />
+                {errors.message && (
+                  <p className="mt-1 text-sm text-red-500">{errors.message}</p>
+                )}
+                <p className="mt-1 text-xs text-muted-foreground">
+                  {formData.message.length}/5000 characters
+                </p>
               </div>
 
               <button

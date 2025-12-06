@@ -4,3 +4,4 @@ node_modules
 .env.*.local
 
 EMAIL_SETUP.md
+GITHUB_PAGES_SETUP.md

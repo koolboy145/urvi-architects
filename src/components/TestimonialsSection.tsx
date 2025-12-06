@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { ChevronLeft, ChevronRight, Quote } from 'lucide-react';
 
 const testimonials = [
@@ -13,7 +13,7 @@ const testimonials = [
     location: 'Blue Bottle Café, Patna',
   },
   {
-    quote: "Urvi Architectural Services gave Quantum Quisine Café a stunning identity. The design is modern, functional, and full of character—exactly what we envisioned. Architect Urvija Kriti and her team were creative, responsive, and truly professional throughout. We couldn’t be happier!",
+    quote: "Urvi Architectural Services gave Quantum Quisine Café a stunning identity. The design is modern, functional, and full of character—exactly what we envisioned. Architect Urvija Kriti and her team were creative, responsive, and truly professional throughout. We couldn't be happier!",
     author: 'Rajesh Kumar',
     location: 'Quantum Quisine Café, Patna',
   },
@@ -21,9 +21,34 @@ const testimonials = [
 
 const TestimonialsSection = () => {
   const [current, setCurrent] = useState(0);
+  const [height, setHeight] = useState<number | 'auto'>('auto');
+  const contentRef = useRef<HTMLDivElement>(null);
 
   const next = () => setCurrent((prev) => (prev + 1) % testimonials.length);
   const prev = () => setCurrent((prev) => (prev - 1 + testimonials.length) % testimonials.length);
+
+  // Update height when testimonial changes or window resizes
+  useEffect(() => {
+    const updateHeight = () => {
+      if (contentRef.current) {
+        const activeContent = contentRef.current.querySelector('[data-active="true"]') as HTMLElement;
+        if (activeContent) {
+          // Temporarily make it visible to measure if needed
+          const currentHeight = activeContent.offsetHeight;
+          if (currentHeight > 0) {
+            setHeight(currentHeight);
+          }
+        }
+      }
+    };
+
+    // Initial measurement
+    updateHeight();
+
+    // Update on window resize
+    window.addEventListener('resize', updateHeight);
+    return () => window.removeEventListener('resize', updateHeight);
+  }, [current]);
 
   return (
     <section className="section-padding bg-cream-dark">
@@ -31,14 +56,19 @@ const TestimonialsSection = () => {
         <div className="max-w-4xl mx-auto text-center">
           <Quote className="w-12 h-12 md:w-16 md:h-16 text-gold/30 mx-auto mb-8" />
           
-          <div className="relative min-h-[400px] md:min-h-[350px] lg:min-h-[400px]">
+          <div 
+            ref={contentRef}
+            className="relative transition-[min-height] duration-700 ease-in-out"
+            style={{ minHeight: height === 'auto' ? undefined : `${height}px` }}
+          >
             {testimonials.map((testimonial, index) => (
               <div
                 key={index}
-                className={`absolute inset-0 transition-all duration-700 ${
+                data-active={index === current}
+                className={`transition-all duration-700 ${
                   index === current 
-                    ? 'opacity-100 translate-y-0' 
-                    : 'opacity-0 translate-y-8 pointer-events-none'
+                    ? 'opacity-100 translate-y-0 relative' 
+                    : 'opacity-0 translate-y-8 pointer-events-none absolute inset-0'
                 }`}
               >
                 <blockquote className="font-serif text-2xl md:text-3xl lg:text-4xl text-foreground leading-relaxed mb-12 md:mb-16">
@@ -53,7 +83,7 @@ const TestimonialsSection = () => {
           </div>
 
           {/* Navigation */}
-          <div className="flex items-center justify-center gap-4 mt-[14px] md:mt-[30px]">
+          <div className="flex items-center justify-center gap-4 mt-12 md:mt-16">
             <button
               onClick={prev}
               className="w-12 h-12 flex items-center justify-center border border-border hover:border-gold hover:text-gold transition-colors duration-300"

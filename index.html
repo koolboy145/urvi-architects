@@ -22,6 +22,61 @@
 
   <body>
     <div id="root"></div>
+    <script>
+      // Handle GitHub Pages 404 redirect for React Router
+      // This script runs before React Router initializes to fix the URL
+      (function() {
+        var location = window.location;
+        var search = location.search;
+        var pathname = location.pathname;
+        
+        // Check if we have a path in the query string (from 404.html redirect)
+        // Format: ?/path/to/route or index.html?/path/to/route
+        if (search && search.indexOf('?/') === 0) {
+          // Extract the full query string after ?/
+          var fullQuery = search.slice(2);
+          var routePath = '';
+          var queryParams = '';
+          var hash = location.hash;
+          
+          // Find where the route path ends and query params begin
+          // Route path is everything before the first & that's not part of ~and~
+          var routeEndIndex = fullQuery.indexOf('&');
+          
+          if (routeEndIndex === -1) {
+            // No additional query params, entire string is the route
+            routePath = fullQuery;
+          } else {
+            // Extract route path and query params separately
+            routePath = fullQuery.slice(0, routeEndIndex);
+            queryParams = '?' + fullQuery.slice(routeEndIndex + 1).replace(/~and~/g, '&');
+          }
+          
+          // Decode the route path (replace ~and~ with &)
+          var decodedPath = routePath.replace(/~and~/g, '&');
+          
+          // Get the base path (repository name)
+          // Remove 'index.html' from pathname if present, and trailing slashes
+          var basePath = pathname.replace(/\/index\.html$/, '').replace(/\/$/, '');
+          if (!basePath) basePath = '/';
+          
+          // Construct the new URL with the route path in the pathname
+          // Ensure proper slashes
+          var newPath = basePath === '/' 
+            ? '/' + decodedPath 
+            : basePath + '/' + decodedPath;
+          
+          // Clean up multiple slashes
+          newPath = newPath.replace(/\/+/g, '/');
+          
+          // Build the final URL
+          var newUrl = location.protocol + '//' + location.host + newPath + queryParams + hash;
+          
+          // Update URL without page reload so React Router can handle it
+          window.history.replaceState({}, '', newUrl);
+        }
+      })();
+    </script>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

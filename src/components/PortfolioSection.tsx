@@ -182,7 +182,9 @@ const PortfolioSection = () => {
               }`}>
                 <img
                   src={project.image}
-                  alt={project.title}
+                  alt={`${project.title} - ${project.category} project by URVI Architectural Services`}
+                  loading="lazy"
+                  decoding="async"
                   className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                 />
                 {/* Overlay */}
@@ -267,7 +269,9 @@ const PortfolioSection = () => {
                   <div className="relative w-full aspect-video overflow-hidden rounded-lg">
                     <img
                       src={selectedProject.image}
-                      alt={selectedProject.title}
+                      alt={`${selectedProject.title} - ${selectedProject.category} project by URVI Architectural Services`}
+                      loading="lazy"
+                      decoding="async"
                       className="w-full h-full object-cover"
                     />
                   </div>
@@ -371,7 +375,9 @@ const PortfolioSection = () => {
                         <div className="relative overflow-hidden aspect-[4/3] rounded-lg">
                           <img
                             src={project.image}
-                            alt={project.title}
+                            alt={`${project.title} - ${project.category} project by URVI Architectural Services`}
+                            loading="lazy"
+                            decoding="async"
                             className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                           />
                           {/* Overlay */}
@@ -450,7 +456,9 @@ const PortfolioSection = () => {
                     <div className="relative w-full aspect-video overflow-hidden rounded-lg">
                       <img
                         src={selectedProject.image}
-                        alt={selectedProject.title}
+                        alt={`${selectedProject.title} - ${selectedProject.category} project by URVI Architectural Services`}
+                        loading="lazy"
+                        decoding="async"
                         className="w-full h-full object-cover"
                       />
                     </div>
@@ -489,7 +497,9 @@ const PortfolioSection = () => {
                             <div key={idx} className="relative w-full aspect-video overflow-hidden rounded-lg">
                               <img
                                 src={img}
-                                alt={`${selectedProject.title} - Image ${idx + 1}`}
+                                alt={`${selectedProject.title} - Gallery Image ${idx + 1} by URVI Architectural Services`}
+                                loading="lazy"
+                                decoding="async"
                                 className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
                               />
                             </div>

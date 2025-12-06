@@ -38,7 +38,9 @@ const TeamSection = () => {
               <div className="relative mb-6 overflow-hidden">
                 <img
                   src={member.image}
-                  alt={member.name}
+                  alt={`${member.name} - ${member.role} at URVI Architectural Services`}
+                  loading="lazy"
+                  decoding="async"
                   className="w-full aspect-[3/4] object-cover grayscale group-hover:grayscale-0 transition-all duration-700"
                 />
                 <div className="absolute inset-0 bg-gold/0 group-hover:bg-gold/10 transition-all duration-500" />

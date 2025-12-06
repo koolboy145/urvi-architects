@@ -2,6 +2,9 @@ node_modules
 .env
 .env.local
 .env.*.local
+# Uncomment the line below if using docs folder deployment
+# docs
 
 EMAIL_SETUP.md
 GITHUB_PAGES_SETUP.md
+GITHUB_PAGES_TROUBLESHOOTING.md

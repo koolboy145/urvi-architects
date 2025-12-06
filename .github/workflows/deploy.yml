@@ -24,7 +24,10 @@ jobs:
           node-version: '20'
           cache: 'npm'
       - run: npm ci
-      - run: npm run build
+      - name: Build with production base path
+        run: npm run build
+        env:
+          NODE_ENV: production
       - uses: actions/configure-pages@v4
       - uses: actions/upload-pages-artifact@v3
         with:

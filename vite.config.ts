@@ -5,7 +5,10 @@ import { componentTagger } from "lovable-tagger";
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
-  base: process.env.NODE_ENV === 'production' ? '/urvi-architects/' : '/', // Change 'architect' to your repo name
+  // For GitHub Pages, use the repository name as base path
+  // Change '/urvi-architects/' to match your repository name
+  // Vite automatically sets import.meta.env.BASE_URL to this value
+  base: mode === 'production' ? '/urvi-architects/' : '/',
   server: {
     host: "::",
     port: 8080,

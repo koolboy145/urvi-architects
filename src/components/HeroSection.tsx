@@ -9,6 +9,8 @@ const HeroSection = () => {
           src="https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=2000&q=80"
           alt="Luxury modern interior"
           className="w-full h-full object-cover"
+          fetchPriority="high"
+          loading="eager"
         />
         <div className="absolute inset-0 bg-charcoal/40" />
       </div>

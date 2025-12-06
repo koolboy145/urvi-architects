@@ -28,26 +28,49 @@ const TestimonialsSection = () => {
   const prev = () => setCurrent((prev) => (prev - 1 + testimonials.length) % testimonials.length);
 
   // Update height when testimonial changes or window resizes
+  // Using requestAnimationFrame to avoid forced reflows
   useEffect(() => {
+    let rafId: number;
+    let resizeTimeout: ReturnType<typeof setTimeout>;
+
     const updateHeight = () => {
       if (contentRef.current) {
         const activeContent = contentRef.current.querySelector('[data-active="true"]') as HTMLElement;
         if (activeContent) {
-          // Temporarily make it visible to measure if needed
-          const currentHeight = activeContent.offsetHeight;
-          if (currentHeight > 0) {
-            setHeight(currentHeight);
-          }
+          // Use requestAnimationFrame to defer measurement until after paint
+          // This prevents forced reflows by reading layout properties after the browser has painted
+          rafId = requestAnimationFrame(() => {
+            const currentHeight = activeContent.offsetHeight;
+            if (currentHeight > 0) {
+              setHeight(currentHeight);
+            }
+          });
         }
       }
     };
 
-    // Initial measurement
-    updateHeight();
+    // Defer initial measurement to avoid forced reflow on mount
+    rafId = requestAnimationFrame(() => {
+      updateHeight();
+    });
 
-    // Update on window resize
-    window.addEventListener('resize', updateHeight);
-    return () => window.removeEventListener('resize', updateHeight);
+    // Throttled resize handler to avoid excessive reflows
+    const handleResize = () => {
+      clearTimeout(resizeTimeout);
+      resizeTimeout = setTimeout(() => {
+        updateHeight();
+      }, 150); // Throttle resize events
+    };
+
+    window.addEventListener('resize', handleResize, { passive: true });
+    
+    return () => {
+      if (rafId) {
+        cancelAnimationFrame(rafId);
+      }
+      clearTimeout(resizeTimeout);
+      window.removeEventListener('resize', handleResize);
+    };
   }, [current]);
 
   return (

@@ -1,35 +1,92 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>URVI Architectural Services</title>
     <script>
-      // Single Page Apps for GitHub Pages
-      // https://github.com/rafgraph/spa-github-pages
-      // This script takes the current url and converts the path and query
-      // string into just a query string, and then redirects the browser
-      // to the new url with only a query string and hash fragment,
-      // e.g., https://www.foo.tld/one/two?a=b&c=d#qwe, becomes
-      // https://www.foo.tld/?/one/two&a=b~and~c=d#qwe
-      // Note: this 404.html file must be at least 512 bytes for it to work
-      // with Internet Explorer (it is currently > 512 bytes)
+      // GitHub Pages SPA Routing Handler for React Router
+      // Redirects 404 errors to index.html while preserving the path
+      // Based on: https://github.com/rafgraph/spa-github-pages
 
-      // For GitHub Pages with repository name in URL (e.g., username.github.io/repo-name)
-      // Set segmentCount to 1 to keep the repo name segment
-      // For custom domain, set to 0
-      var pathSegmentsToKeep = 1;
+      (function() {
+        // For GitHub Pages with repository name in URL (e.g., username.github.io/repo-name)
+        // Set to 1 to keep the repo name segment
+        // For custom domain, set to 0
+        var pathSegmentsToKeep = 1;
 
-      var l = window.location;
-      l.replace(
-        l.protocol + '//' + l.hostname + (l.port ? ':' + l.port : '') +
-        l.pathname.split('/').slice(0, 1 + pathSegmentsToKeep).join('/') + '/?/' +
-        l.pathname.slice(1).split('/').slice(pathSegmentsToKeep).join('/').replace(/&/g, '~and~') +
-        (l.search ? '&' + l.search.slice(1).replace(/&/g, '~and~') : '') +
-        l.hash
-      );
+        var location = window.location;
+        var pathname = location.pathname;
+        var search = location.search || '';
+        var hash = location.hash || '';
+
+        // Split pathname into segments (filter out empty strings)
+        var pathnameParts = pathname.split('/').filter(function(part) {
+          return part.length > 0;
+        });
+
+        // Keep the base path segments (repository name)
+        var basePath = pathnameParts.slice(0, pathSegmentsToKeep).join('/');
+        // Get the remaining path (the route we want to preserve for React Router)
+        var routePath = pathnameParts.slice(pathSegmentsToKeep).join('/');
+
+        // Build the redirect URL to index.html
+        // Format: /repo-name/index.html?/route-path&original-query#hash
+        var redirectPath = '/' + basePath + '/index.html';
+        
+        // Add the route path as a query parameter
+        if (routePath) {
+          redirectPath += '?/' + routePath.replace(/&/g, '~and~');
+        }
+        
+        // Preserve original query string (if any, excluding the path)
+        if (search && search.length > 1 && search.indexOf('?/') !== 0) {
+          redirectPath += (routePath ? '&' : '?') + search.slice(1).replace(/&/g, '~and~');
+        }
+        
+        // Preserve hash
+        redirectPath += hash;
+
+        // Redirect to index.html (React Router will handle the routing)
+        window.location.replace(
+          location.protocol + '//' + location.host + redirectPath
+        );
+      })();
     </script>
+    <style>
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+        margin: 0;
+        background-color: #f5f5f0;
+        color: #2c2c2c;
+      }
+      .loading {
+        text-align: center;
+      }
+      .spinner {
+        border: 3px solid #f3f3f3;
+        border-top: 3px solid #d4af37;
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        animation: spin 1s linear infinite;
+        margin: 0 auto 20px;
+      }
+      @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+      }
+    </style>
   </head>
   <body>
+    <div class="loading">
+      <div class="spinner"></div>
+      <p>Redirecting...</p>
+    </div>
   </body>
 </html>
 

@@ -18,11 +18,144 @@
     <meta name="twitter:title" content="URVI Architectural Services | Interior Architecture & Design" />
     <meta name="twitter:description" content="Where space becomes emotion. Interior Architecture & Design." />
     <meta name="twitter:image" content="https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=1200&q=80" />
-    <script type="module" crossorigin src="/urvi-architects/assets/index-BA978HC9.js"></script>
-    <link rel="stylesheet" crossorigin href="/urvi-architects/assets/index-Be6sfT1_.css">
+
+    <!-- Critical Resource Hints - Must be early in <head> for maximum benefit -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://images.unsplash.com" />
+    
+    <!-- Load fonts directly (non-blocking) instead of via CSS @import to reduce critical path -->
+    <!-- Using font-display=swap ensures text is visible immediately with fallback font -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" />
+    
+    <!-- Preload critical hero image for faster LCP -->
+    <link rel="preload" href="https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=2000&q=80" as="image" fetchpriority="high" />
+    
+    <!-- DNS prefetch for non-critical external resources -->
+    <link rel="dns-prefetch" href="https://www.emailjs.com" />
+
+    <!-- Structured Data (JSON-LD) for SEO -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "ProfessionalService",
+      "name": "URVI Architectural Services",
+      "description": "Interior Architecture & Design services crafting bespoke interior spaces that transcend the ordinary. Residential and commercial design in India.",
+      "url": "https://koolboy145.github.io/urvi-architects/",
+      "logo": "https://koolboy145.github.io/urvi-architects/logo.png",
+      "image": "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=1200&q=80",
+      "telephone": "+91-XXXXXXXXXX",
+      "email": "ar.urvija.kriti@gmail.com",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Patna",
+        "addressCountry": "IN"
+      },
+      "areaServed": {
+        "@type": "Country",
+        "name": "India"
+      },
+      "serviceType": [
+        "Interior Design",
+        "Architectural Services",
+        "Residential Design",
+        "Commercial Design",
+        "Spatial Planning",
+        "Material Curation"
+      ],
+      "priceRange": "$$",
+      "sameAs": [
+        "https://www.instagram.com/urvi_design/",
+        "https://www.linkedin.com/in/ar-urvija-kriti-2b85657a/"
+      ]
+    }
+    </script>
+
+    <!-- Organization Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "URVI Architectural Services",
+      "url": "https://koolboy145.github.io/urvi-architects/",
+      "logo": "https://koolboy145.github.io/urvi-architects/logo.png",
+      "sameAs": [
+        "https://www.instagram.com/urvi_design/",
+        "https://www.linkedin.com/in/ar-urvija-kriti-2b85657a/"
+      ],
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "contactType": "Customer Service",
+        "email": "ar.urvija.kriti@gmail.com"
+      }
+    }
+    </script>
+    <script type="module" crossorigin src="/urvi-architects/assets/index-DjNYt3Bv.js"></script>
+    <link rel="modulepreload" crossorigin href="/urvi-architects/assets/vendor-BN3ImHZM.js">
+    <link rel="modulepreload" crossorigin href="/urvi-architects/assets/react-vendor-CwUIVWT7.js">
+    <link rel="modulepreload" crossorigin href="/urvi-architects/assets/radix-ui-iobFdtsS.js">
+    <link rel="modulepreload" crossorigin href="/urvi-architects/assets/icons--SbZtTfB.js">
+    <link rel="modulepreload" crossorigin href="/urvi-architects/assets/emailjs-DtVQIX_c.js">
+    <link rel="preload" href="/urvi-architects/assets/index-gSeOEk_q.css" as="style" crossorigin><link rel="stylesheet" crossorigin href="/urvi-architects/assets/index-gSeOEk_q.css" media="print" onload="this.media='all'"><noscript><link rel="stylesheet" crossorigin href="/urvi-architects/assets/index-gSeOEk_q.css"></noscript>
   </head>
 
   <body>
     <div id="root"></div>
+    <script>
+      // Handle GitHub Pages 404 redirect for React Router
+      // This script runs before React Router initializes to fix the URL
+      (function() {
+        var location = window.location;
+        var search = location.search;
+        var pathname = location.pathname;
+        
+        // Check if we have a path in the query string (from 404.html redirect)
+        // Format: ?/path/to/route or index.html?/path/to/route
+        if (search && search.indexOf('?/') === 0) {
+          // Extract the full query string after ?/
+          var fullQuery = search.slice(2);
+          var routePath = '';
+          var queryParams = '';
+          var hash = location.hash;
+          
+          // Find where the route path ends and query params begin
+          // Route path is everything before the first & that's not part of ~and~
+          var routeEndIndex = fullQuery.indexOf('&');
+          
+          if (routeEndIndex === -1) {
+            // No additional query params, entire string is the route
+            routePath = fullQuery;
+          } else {
+            // Extract route path and query params separately
+            routePath = fullQuery.slice(0, routeEndIndex);
+            queryParams = '?' + fullQuery.slice(routeEndIndex + 1).replace(/~and~/g, '&');
+          }
+          
+          // Decode the route path (replace ~and~ with &)
+          var decodedPath = routePath.replace(/~and~/g, '&');
+          
+          // Get the base path (repository name)
+          // Remove 'index.html' from pathname if present, and trailing slashes
+          var basePath = pathname.replace(/\/index\.html$/, '').replace(/\/$/, '');
+          if (!basePath) basePath = '/';
+          
+          // Construct the new URL with the route path in the pathname
+          // Ensure proper slashes
+          var newPath = basePath === '/' 
+            ? '/' + decodedPath 
+            : basePath + '/' + decodedPath;
+          
+          // Clean up multiple slashes
+          newPath = newPath.replace(/\/+/g, '/');
+          
+          // Build the final URL
+          var newUrl = location.protocol + '//' + location.host + newPath + queryParams + hash;
+          
+          // Update URL without page reload so React Router can handle it
+          window.history.replaceState({}, '', newUrl);
+        }
+      })();
+    </script>
+    <!-- Module scripts are deferred by default -->
   </body>
 </html>

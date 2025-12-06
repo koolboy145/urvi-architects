@@ -2,6 +2,7 @@ import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react-swc";
 import path from "path";
 import { componentTagger } from "lovable-tagger";
+import { asyncCss } from "./vite-plugin-async-css";
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
@@ -13,7 +14,11 @@ export default defineConfig(({ mode }) => ({
     host: "::",
     port: 8080,
   },
-  plugins: [react(), mode === "development" && componentTagger()].filter(Boolean),
+  plugins: [
+    react(), 
+    mode === "development" && componentTagger(),
+    mode === "production" && asyncCss(), // Only apply async CSS in production
+  ].filter(Boolean),
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
@@ -27,13 +32,37 @@ export default defineConfig(({ mode }) => ({
     rollupOptions: {
       output: {
         // Code splitting for better caching
-        manualChunks: {
-          'react-vendor': ['react', 'react-dom', 'react-router-dom'],
-          'ui-vendor': ['@radix-ui/react-dialog', '@radix-ui/react-toast'],
+        manualChunks: (id) => {
+          // React and core dependencies
+          if (id.includes('node_modules/react') || id.includes('node_modules/react-dom') || id.includes('node_modules/react-router')) {
+            return 'react-vendor';
+          }
+          // Radix UI components (only the ones we use)
+          if (id.includes('node_modules/@radix-ui')) {
+            return 'radix-ui';
+          }
+          // EmailJS
+          if (id.includes('node_modules/@emailjs')) {
+            return 'emailjs';
+          }
+          // Lucide icons
+          if (id.includes('node_modules/lucide-react')) {
+            return 'icons';
+          }
+          // Other vendor libraries
+          if (id.includes('node_modules')) {
+            return 'vendor';
+          }
         },
+        // Ensure assets have content hashes for long-term caching
+        assetFileNames: 'assets/[name]-[hash][extname]',
+        chunkFileNames: 'assets/[name]-[hash].js',
+        entryFileNames: 'assets/[name]-[hash].js',
       },
     },
     // Chunk size warnings
     chunkSizeWarningLimit: 1000,
   },
+  // Copy service worker to dist
+  publicDir: 'public',
 }));

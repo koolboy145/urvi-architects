@@ -54,15 +54,9 @@ export default defineConfig(({ mode }) => ({
             return 'vendor';
           }
         },
-        // Ensure assets have content hashes for long-term caching
-        assetFileNames: 'assets/[name]-[hash][extname]',
-        chunkFileNames: 'assets/[name]-[hash].js',
-        entryFileNames: 'assets/[name]-[hash].js',
       },
     },
     // Chunk size warnings
     chunkSizeWarningLimit: 1000,
   },
-  // Copy service worker to dist
-  publicDir: 'public',
 }));

@@ -24,8 +24,23 @@ jobs:
           node-version: '20'
           cache: 'npm'
       - run: npm ci
+      - name: Verify EmailJS secrets are set
+        run: |
+          if [ -z "${{ secrets.VITE_EMAILJS_SERVICE_ID }}" ]; then
+            echo "❌ VITE_EMAILJS_SERVICE_ID is not set"
+            exit 1
+          fi
+          if [ -z "${{ secrets.VITE_EMAILJS_TEMPLATE_ID }}" ]; then
+            echo "❌ VITE_EMAILJS_TEMPLATE_ID is not set"
+            exit 1
+          fi
+          if [ -z "${{ secrets.VITE_EMAILJS_PUBLIC_KEY }}" ]; then
+            echo "❌ VITE_EMAILJS_PUBLIC_KEY is not set"
+            exit 1
+          fi
+          echo "✅ All EmailJS secrets are set"
       - name: Build with production base path
-        run: npm run build
+        run: npm run build -- --mode production
         env:
           NODE_ENV: production
           VITE_EMAILJS_SERVICE_ID: ${{ secrets.VITE_EMAILJS_SERVICE_ID }}

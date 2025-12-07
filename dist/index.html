@@ -90,7 +90,7 @@
       }
     }
     </script>
-    <script type="module" crossorigin src="/urvi-architects/assets/index-Cqdt1m0L.js"></script>
+    <script type="module" crossorigin src="/urvi-architects/assets/index-CnZ2vNUV.js"></script>
     <link rel="modulepreload" crossorigin href="/urvi-architects/assets/vendor-Cw_cXigJ.js">
     <link rel="modulepreload" crossorigin href="/urvi-architects/assets/react-vendor-95aLiYq0.js">
     <link rel="modulepreload" crossorigin href="/urvi-architects/assets/radix-ui-D3dX4Oou.js">
@@ -102,6 +102,28 @@
   <body>
     <div id="root"></div>
     <script>
+      // Diagnostic: Log environment info
+      console.log('Page loaded. Pathname:', window.location.pathname);
+      console.log('Href:', window.location.href);
+      
+      // Catch and log any errors
+      window.addEventListener('error', function(e) {
+        console.error('Global error:', e.message, 'at', e.filename + ':' + e.lineno);
+        var root = document.getElementById('root');
+        if (root && !root.innerHTML.trim()) {
+          root.innerHTML = '<div style="padding: 2rem; text-align: center;"><h1>Error Loading App</h1><p>Check console for details.</p></div>';
+        }
+      }, true);
+      
+      // Check if scripts loaded after 3 seconds
+      setTimeout(function() {
+        var root = document.getElementById('root');
+        if (root && (!root.innerHTML.trim() || root.innerHTML === '<div id="root"></div>')) {
+          console.warn('App did not load after 3 seconds');
+          root.innerHTML = '<div style="padding: 2rem; text-align: center; font-family: sans-serif;"><h1>Loading Issue</h1><p>The application is taking longer than expected to load.</p><p style="color: #666; font-size: 0.9rem;">Please check the browser console for errors.</p></div>';
+        }
+      }, 3000);
+      
       // Handle GitHub Pages 404 redirect for React Router
       // This script runs before React Router initializes to fix the URL
       (function() {

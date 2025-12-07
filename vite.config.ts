@@ -34,28 +34,16 @@ export default defineConfig(({ mode }) => ({
     assetsDir: 'assets',
     rollupOptions: {
       output: {
-        // Code splitting for better caching
+        // Simplified code splitting to avoid circular dependencies
+        // Let Vite handle most chunking automatically, only split large vendors
         manualChunks: (id) => {
-          // React and core dependencies
-          if (id.includes('node_modules/react') || id.includes('node_modules/react-dom') || id.includes('node_modules/react-router')) {
+          // Only split React and React DOM into a separate chunk
+          // This avoids circular dependency issues
+          if (id.includes('node_modules/react') || id.includes('node_modules/react-dom')) {
             return 'react-vendor';
           }
-          // Radix UI components (only the ones we use)
-          if (id.includes('node_modules/@radix-ui')) {
-            return 'radix-ui';
-          }
-          // EmailJS
-          if (id.includes('node_modules/@emailjs')) {
-            return 'emailjs';
-          }
-          // Lucide icons
-          if (id.includes('node_modules/lucide-react')) {
-            return 'icons';
-          }
-          // Other vendor libraries
-          if (id.includes('node_modules')) {
-            return 'vendor';
-          }
+          // Don't split other vendors to avoid circular dependencies
+          // Vite will handle the rest automatically
         },
       },
     },

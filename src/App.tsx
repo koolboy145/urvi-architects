@@ -6,7 +6,8 @@ import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 
 // Get base path from environment or default to '/'
-const basePath = import.meta.env.BASE_URL || '/';
+// Remove trailing slash for React Router (it expects no trailing slash)
+const basePath = (import.meta.env.BASE_URL || '/').replace(/\/$/, '') || '/';
 
 const App = () => (
   <TooltipProvider>

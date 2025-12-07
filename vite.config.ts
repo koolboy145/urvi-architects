@@ -17,7 +17,8 @@ export default defineConfig(({ mode }) => ({
   plugins: [
     react(), 
     mode === "development" && componentTagger(),
-    mode === "production" && asyncCss(), // Only apply async CSS in production
+    // Temporarily disabled to debug GitHub Pages white page issue
+    // mode === "production" && asyncCss(), // Only apply async CSS in production
   ].filter(Boolean),
   resolve: {
     alias: {
@@ -29,6 +30,8 @@ export default defineConfig(({ mode }) => ({
     minify: 'esbuild',
     cssMinify: true,
     sourcemap: false, // Disable sourcemaps in production for smaller bundle
+    // Ensure proper asset handling for GitHub Pages
+    assetsDir: 'assets',
     rollupOptions: {
       output: {
         // Code splitting for better caching

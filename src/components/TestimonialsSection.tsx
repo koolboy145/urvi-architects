@@ -3,19 +3,34 @@ import { ChevronLeft, ChevronRight, Quote } from 'lucide-react';
 
 const testimonials = [
   {
-    quote: "Urvi Architectural Services transformed our vision into a clean, efficient medical store layout. Urvija Kriti and her team balanced functionality and aesthetics perfectly, ensuring optimal product display and a welcoming atmosphere. We are very happy with the outcome and highly recommend them!",
-    author: 'Dr. Anjali Singh',
+    quote: "Urvi Architectural Services transformed our vision into a clean, efficient, and customer-friendly medical store layout. Architect Urvija Kriti and her team designed the space with a perfect balance of functionality and aesthetics—ensuring optimal product display, smooth movement, and a welcoming atmosphere. Their attention to detail, timely execution, and understanding of retail healthcare needs made the entire experience smooth and satisfying. We’re extremely happy with the outcome and highly recommend their services.",
+    author: 'Rakesh',
     location: 'Medical Store, Patna',
   },
   {
-    quote: "Designing Blue Bottle Café with Urvi Architectural Services was inspiring. Urvija Kriti and her team delivered a space blending contemporary aesthetics with functional design. They understood the importance of ambiance, creating a unique, inviting space our customers love. Highly recommend!",
-    author: 'Rajesh Kumar',
+    quote: "Designing Blue Bottle Café with Urvi Architectural Services was a truly inspiring journey. Architect Urvija Kriti and her team brought our concept to life with creativity, warmth, and precision. They understood the importance of ambiance in a café setting and delivered a space that feels both inviting and unique—blending contemporary aesthetics with functional design. From layout planning to material selection and lighting, every element was carefully considered. Our customers love the vibe, and so do we. A heartfelt thank you to the team for creating a space that perfectly reflects the spirit of Blue Bottle.",
+    author: 'Shreya and Umang',
     location: 'Blue Bottle Café, Patna',
   },
   {
-    quote: "Urvi Architectural Services gave Quantum Quisine Café a stunning identity. The design is modern, functional, and full of character—exactly what we envisioned. Architect Urvija Kriti and her team were creative, responsive, and truly professional throughout. We couldn't be happier!",
-    author: 'Rajesh Kumar',
+    quote: "Urvi Architectural Services gave Quantum Quisine Café a stunning identity. The design is modern, functional, and full of character—exactly what we envisioned. Architect Urvija Kriti and her team were creative, responsive, and truly professional throughout. We couldn’t be happier!",
+    author: 'Anish',
     location: 'Quantum Quisine Café, Patna',
+  },
+  {
+    quote: "Choosing Urvi Architectural Services for our home was the best decision we made. Architect Urvija Kriti and her team created a luxurious yet comfortable living space, with every piece of furniture thoughtfully designed and tailored to our taste. The craftsmanship, attention to detail, and seamless integration of style and function truly elevated our home. Their professionalism and vision turned our dream into reality.",
+    author: 'Ritesh and Archana',
+    location: 'Residential, Patna',
+  },
+  {
+    quote: "Designing our home with Urvi Architectural Services was a wonderful experience. They understood our lifestyle, preferences, and budget perfectly. The result is a beautiful, practical home that we truly love living in.",
+    author: 'Dr. Ruby',
+    location: 'Residential, Patna',
+  },
+  {
+    quote: "We were amazed by the transformation Urvi Architectural Services achieved through renovation. From space re-planning to material selection, everything was thoughtfully executed. Our home now feels completely new.",
+    author: 'Vishal and Nivedita',
+    location: 'Residential, Patna',
   },
 ];
 

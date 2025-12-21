@@ -47,7 +47,7 @@ const Navigation = () => {
           className="transition-opacity duration-500 hover:opacity-80"
         >
           <img 
-            src="/logo/logo.png" 
+            src={`${import.meta.env.BASE_URL}logo/logo.png`}
             alt="URVI Logo" 
             className="h-12 md:h-16 w-auto"
           />

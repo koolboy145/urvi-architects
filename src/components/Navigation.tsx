@@ -44,11 +44,13 @@ const Navigation = () => {
       <div className="container-wide flex items-center justify-between">
         <a 
           href="#" 
-          className={`font-serif text-2xl md:text-3xl tracking-tight transition-colors duration-500 ${
-            isScrolled ? 'text-foreground' : 'text-white'
-          }`}
+          className="transition-opacity duration-500 hover:opacity-80"
         >
-          URVI<span className="text-gold">.</span>
+          <img 
+            src="/logo/logo.png" 
+            alt="URVI Logo" 
+            className="h-12 md:h-16 w-auto"
+          />
         </a>
 
         {/* Desktop Navigation */}
